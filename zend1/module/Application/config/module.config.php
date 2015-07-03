@@ -15,8 +15,8 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        'controller' => 'Recipe\Controller\Recipe',
-                        'action'     => 'index',
+                        'controller' => 'CookingAssist\Controller\CookingAssist',
+                        'action'     => 'add-recipe',
                     ),
                 ),
             ),
