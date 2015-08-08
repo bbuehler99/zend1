@@ -79,7 +79,8 @@ class AddRecipeForm extends AddWorkflowForm
         $addStepSelect->setLabel('Anzahl Schritte wählen');
         $addStepSelect->setValueOptions($stepNumbers);
         $addStepSelect->setAttribute('id', 'noOfStepSelect');
-        $addStepSelect->setAttribute('onchange', 'show(this.value)');
+        $addStepSelect->setValue(2);
+        $addStepSelect->setAttribute('onchange', 'show(++this.value)');
         $this->add($addStepSelect);
         
     }

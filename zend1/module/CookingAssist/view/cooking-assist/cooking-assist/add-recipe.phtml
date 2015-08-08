@@ -48,11 +48,13 @@ $this->headTitle($title);
 
  
  <script>
+ window.onload = show(2);
  function show(noOfVisibleSteps) {
+	 alert(noOfVisibleSteps);
 	 var i = 0;
 	 var currentStep = document.getElementById('step'+i);
 	 while (currentStep != null){
-		 if (i<=noOfVisibleSteps){
+		 if (i<noOfVisibleSteps){
 // 			 currentStep.style.visibility = "visible";
 			 currentStep.style.display = "block";
 		 }
