@@ -23,14 +23,34 @@ class AddWorkflowForm extends Form
         // we want to ignore the name passed
         parent::__construct('workflowform');
         
-        $workflowElement = new Collection('workflow');
-        $workflowElement->setOptions(array(
-            'label' => 'Workflow',
-            'target_element' => array(
-                'type' => 'CookingAssist\Form\WorkflowFieldset')
-        ));
+//         $workflowElement = new Collection('workflow');
+//         $workflowElement->setOptions(array(
+//             'label' => 'Workflow',
+//             'target_element' => array(
+//                 'type' => 'CookingAssist\Form\WorkflowFieldset')
+//         ));
         
-        $this->add($workflowElement);
+//         $this->add($workflowElement);
+        
+        
+        $this->add(array(
+            'name' => 'id',
+            'type' => 'Hidden',
+        ));
+        $this->add(array(
+            'name' => 'title',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Titel',
+            ),
+        ));
+        $this->add(array(
+            'name' => 'tipp',
+            'type' => 'Text',
+            'options' => array(
+                'label' => 'Tipp',
+            ),
+        ));
 
         $submitElement = new Submit('submit');
         $submitElement->setValue('Hinzufügen');
