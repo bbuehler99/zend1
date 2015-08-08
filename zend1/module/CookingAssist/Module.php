@@ -12,6 +12,10 @@ namespace CookingAssist;
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
+use CookingAssist\Model\Recipe;
+use CookingAssist\Model\RecipeTable;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -46,6 +50,25 @@ class Module implements AutoloaderProviderInterface
         $sm = $e->getApplication()->getServiceManager();
         $adapter = $sm->get('Zend\Db\Adapter\Adapter');
         \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::setStaticAdapter($adapter);
+    }
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'CookingAssist\Model\RecipeTable' =>  function($sm) {
+                    $tableGateway = $sm->get('RecipeTableGateway');
+                    $table = new RecipeTable($tableGateway);
+                    return $table;
+                },
+                'RecipeTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Recipe());
+                    
+                    return new TableGateway('recipe', $dbAdapter, null, $resultSetPrototype);
+                },
+            ),
+        );
     }
    
 }

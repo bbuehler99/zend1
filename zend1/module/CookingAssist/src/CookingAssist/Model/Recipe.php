@@ -9,6 +9,8 @@ use Zend\Stdlib\ArraySerializableInterface;
 
 class Recipe extends Workflow 
 {
+    private $inputFilter;
+    
     public $authorId;
     public $noOfPeople;
     public $kcal;
@@ -22,7 +24,7 @@ class Recipe extends Workflow
     
     public function exchangeArray($data)
     {
-        $super->exchangeArray($data);
+        parent::exchangeArray($data);
         $this->authorId     = (!empty($data['authorId'])) ? $data['authorId'] : null;
         $this->noOfPeople  = (!empty($data['noOfPeople'])) ? $data['noOfPeople'] : null;
         $this->kcal = (!empty($data['kcal'])) ? $data['kcal'] : null;
@@ -46,16 +48,19 @@ class Recipe extends Workflow
      
     public function getInputFilter()
     {
-        if (!$this->inputFilter) {
-            $inputFilter = new InputFilter();
+        //TODO: implement
+        $inputFilter = new InputFilter();
+        $this->inputFilter = $inputFilter;
+//         if (!$this->inputFilter) {
+//             $inputFilter = new InputFilter();
              
-            $inputFilter->add(array(
-                'name'     => 'id',
-                'required' => true,
-                'filters'  => array(
-                    array('name' => 'Int'),
-                ),
-            ));
+//             $inputFilter->add(array(
+//                 'name'     => 'id',
+//                 'required' => true,
+//                 'filters'  => array(
+//                     array('name' => 'Int'),
+//                 ),
+//             ));
 
 //             $inputFilter->add(array(
 //                 'name'     => 'title',
@@ -114,7 +119,7 @@ class Recipe extends Workflow
 
              
 //             $this->inputFilter = $inputFilter;
-         }
+ //        }
          
         return $this->inputFilter;
     }
