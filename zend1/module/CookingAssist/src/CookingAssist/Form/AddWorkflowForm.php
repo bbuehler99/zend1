@@ -17,9 +17,9 @@ class AddWorkflowForm extends Form
     public $tipp;
     public $layoutId;
      */
-    public function __construct(AdapterInterface $dbAdapter)
+    public function __construct()
     {
-        $this->setDbAdapter($dbAdapter);
+//         $this->setDbAdapter($dbAdapter);
         // we want to ignore the name passed
         parent::__construct('workflowform');
         

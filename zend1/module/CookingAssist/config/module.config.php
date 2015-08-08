@@ -7,17 +7,16 @@ return array(
     ),
     'router' => array(
         'routes' => array(
-            'cooking-assist' => array(
-                'type'    => 'Literal',
+            'cookingassist' => array(
+                'type'    =>  'Zend\Mvc\Router\Http\Literal',
                 'options' => array(
                     // Change this to something specific to your module
-                    'route'    => '/cookingAssist',
+                    'route'    => '/cookingassist',
                     'defaults' => array(
                         // Change this value to reflect the namespace in which
                         // the controllers for your module are found
-                        '__NAMESPACE__' => 'CookingAssist\Controller',
-                        'controller'    => 'CookingAssist',
-                        'action'        => 'add-recipe',
+                       'controller' => 'CookingAssist\Controller\CookingAssist',
+                       'action'        => 'index',
                     ),
                 ),
                 'may_terminate' => true,
@@ -29,9 +28,8 @@ return array(
                     'default' => array(
                         'type'    => 'Segment',
                         'options' => array(
-                            'route'    => '/[:controller[/:action]]',
+                            'route'    => '[/:action]',
                             'constraints' => array(
-                                'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
                             ),
                             'defaults' => array(

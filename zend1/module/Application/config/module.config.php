@@ -16,7 +16,7 @@ return array(
                     'route'    => '/',
                     'defaults' => array(
                         'controller' => 'CookingAssist\Controller\CookingAssist',
-                        'action'     => 'add-recipe',
+                        'action'     => 'index',
                     ),
                 ),
             ),
@@ -50,6 +50,30 @@ return array(
                     ),
                 ),
             ),
+//             'cookingAssist' => array(
+//                 'type' => 'Zend\Mvc\Router\Http\Literal',
+//                 'options' => array(
+//                     'route'    => '/cookingassist',
+//                     'defaults' => array(
+//                         'controller' => 'CookingAssist\Controller\CookingAssist',
+//                         'action'     => 'index',
+//                     ),
+//                 ),
+//                 'may_terminate' => true,
+//                 'child_routes' => array(
+//                     'default' => array(
+//                         'type'    => 'Segment',
+//                         'options' => array(
+//                             'route'    => '[/:action]',
+//                             'constraints' => array(
+//                                 'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+//                             ),
+//                             'defaults' => array(
+//                             ),
+//                         ),
+//                     ),
+//                 ),
+//             ),
         ),
     ),
     'service_manager' => array(

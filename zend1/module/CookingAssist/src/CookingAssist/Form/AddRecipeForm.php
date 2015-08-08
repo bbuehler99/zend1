@@ -4,18 +4,19 @@ namespace CookingAssist\Form;
 use Zend\Form\Form;
 use CookingAssist\Form\AddWorkflowForm;
 use Zend\Form\Element\Text;
+use Zend\Form\Element\Select;
 use Zend\Form\Element\Checkbox;
 use Zend;
 use Zend\Form\Fieldset;
 use Zend\Form\Element\Collection;
 use Zend\Form\Element\Submit;
 use Zend\Db\Adapter\AdapterInterface;
-
+use Zend\Db\Adapter\Adapter;
 class AddRecipeForm extends AddWorkflowForm
 {
-    public function __construct(AdapterInterface $dbAdapter)
+    public function __construct()
     {
-        parent::__construct($dbAdapter);
+        parent::__construct();
         
 
         $recipeElement = new Collection('recipe');
@@ -26,11 +27,7 @@ class AddRecipeForm extends AddWorkflowForm
         ));
         
         $this->add($recipeElement);
-        
-        $levelElement = new Select('level');
-        $levelElement->setLabel('Schwierigkeit');
-        $levelElement->setValueOptions(array('einfach','schwierig'));
-        $this->add($levelElement);
+
 
     }
     

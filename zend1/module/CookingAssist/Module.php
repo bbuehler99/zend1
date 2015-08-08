@@ -42,5 +42,10 @@ class Module implements AutoloaderProviderInterface
         $eventManager        = $e->getApplication()->getEventManager();
         $moduleRouteListener = new ModuleRouteListener();
         $moduleRouteListener->attach($eventManager);
+        
+        $sm = $e->getApplication()->getServiceManager();
+        $adapter = $sm->get('Zend\Db\Adapter\Adapter');
+        \Zend\Db\TableGateway\Feature\GlobalAdapterFeature::setStaticAdapter($adapter);
     }
+   
 }

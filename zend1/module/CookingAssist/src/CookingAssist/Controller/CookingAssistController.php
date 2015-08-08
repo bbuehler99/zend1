@@ -18,7 +18,6 @@ class CookingAssistController extends AbstractActionController
 {
     public function indexAction()
     {
-        echo "indexAction";
         return array();
     }
 
@@ -30,8 +29,9 @@ class CookingAssistController extends AbstractActionController
     }
     public function addRecipeAction(){
         
-        $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
-        $addRecipeForm = new AddRecipeForm($dbAdapter);
+//         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
+        $addRecipeForm = new AddRecipeForm();
+        
         
         return array('form'=>$addRecipeForm);
     }
