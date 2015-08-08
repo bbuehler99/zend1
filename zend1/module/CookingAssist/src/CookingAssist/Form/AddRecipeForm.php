@@ -19,7 +19,7 @@ class AddRecipeForm extends AddWorkflowForm
 {
     
     private $initialSteps = 2;
-    private $maxNoOfSteps = 6;
+    private $maxNoOfSteps = 20;
     
     public function __construct()
     {

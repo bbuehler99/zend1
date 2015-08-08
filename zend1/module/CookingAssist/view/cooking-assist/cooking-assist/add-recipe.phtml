@@ -22,8 +22,8 @@ $this->headTitle($title);
  
  // Add steps
   // redundant code -> check AddRecipeForm
- $maxNumberOfSteps = 6;
- $initialSteps = 2;
+ $maxNumberOfSteps = $form->getMaxNumberOfSteps();;
+ $initialSteps = $form->getInitialSteps();
  
  for($i=0;$i<$maxNumberOfSteps;++$i){
      ?><div id="step<?php echo $i?>">
@@ -41,7 +41,7 @@ $this->headTitle($title);
  echo $this->formSubmit($form->get('submit'));
  
  echo $this->form()->closeTag();
- 
+ echo $form->getMaxNumberOfSteps();
  
  ?>
  
@@ -50,7 +50,6 @@ $this->headTitle($title);
  <script>
  window.onload = show(2);
  function show(noOfVisibleSteps) {
-	 alert(noOfVisibleSteps);
 	 var i = 0;
 	 var currentStep = document.getElementById('step'+i);
 	 while (currentStep != null){
@@ -65,7 +64,10 @@ $this->headTitle($title);
 		 ++i;
 		 currentStep = document.getElementById('step'+i);
 	 }
-		   
+
+	 // Make sure the current number of steps is selected in drop down
+	 var stepSelect = document.getElementById('noOfStepSelect');
+	 stepSelect.options[noOfVisibleSteps-1].selected = true;
 }
 
 
