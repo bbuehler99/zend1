@@ -18,6 +18,7 @@ use Zend\Form\Element\Textarea;
 class AddRecipeForm extends AddWorkflowForm
 {
     
+    private $initialSteps = 2;
     private $maxNoOfSteps = 6;
     
     public function __construct()
@@ -70,14 +71,15 @@ class AddRecipeForm extends AddWorkflowForm
         $this->add($levelElement);
         
         // Add steps
-        $this->addSteps(4);
+        $this->addSteps($this->getMaxNumberOfSteps());
         
+        // Add select for chosing how many steps should be displayed
         $stepNumbers = range(1,$this->maxNoOfSteps);
         $addStepSelect = new Select('stepNumber');
         $addStepSelect->setLabel('Anzahl Schritte wählen');
         $addStepSelect->setValueOptions($stepNumbers);
         $addStepSelect->setAttribute('id', 'noOfStepSelect');
-        $addStepSelect->setAttribute('onchange', 'show()');
+        $addStepSelect->setAttribute('onchange', 'show(this.value)');
         $this->add($addStepSelect);
         
     }
@@ -113,6 +115,12 @@ class AddRecipeForm extends AddWorkflowForm
         $textElement = new Textarea('stepText'.$index);
         $textElement->setAttribute('id', 'stepText'.$index);
         $this->add($textElement);
+    }
+    public function getMaxNumberOfSteps(){
+        return $this->maxNoOfSteps;
+    }
+    public function getInitialSteps(){
+        return $this->initialSteps;
     }
     
 
