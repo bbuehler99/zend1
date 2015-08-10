@@ -14,28 +14,17 @@ use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\Adapter\Adapter;
 use Zend\Form\Element\MultiCheckbox;
 use Zend\Form\Element\Textarea;
+use Zend\Form\Element;
 
 class AddRecipeForm extends AddWorkflowForm
 {
     
-    private $maxNoOfSteps = 6;
+    private $initialSteps = 2;
+    private $maxNoOfSteps = 20;
     
     public function __construct()
     {
-        parent::__construct();
-        
-
-//         $recipeElement = new Collection('recipe');
-//         $recipeElement->setOptions(array(
-//             'label' => 'Rezept',
-//             'target_element' => array(
-//                 'type' => 'CookingAssist\Form\RecipeFieldset')
-//         ));
-        
-//         $this->add($recipeElement);
-
-        $dbAdapter = Zend\Db\TableGateway\Feature\GlobalAdapterFeature::getStaticAdapter();
-        $this->setDbAdapter($dbAdapter);
+        parent::__construct('addRecipeForm');        
         
         $noOfPeopleElement = new Text('noOfPeople');
         $noOfPeopleElement->setLabel('Anzahl Personen');
@@ -52,42 +41,48 @@ class AddRecipeForm extends AddWorkflowForm
         $publicFlagElement->setLabel('Möchten Sie das Rezept öffentlich speichern?');
         $this->add($publicFlagElement);
         
+        $preparationTimeElement = new Text('preparationTime');
+        $preparationTimeElement->setLabel('Vorbereitungszeit');
+        $this->add($preparationTimeElement);
+        
+        $cookingTimeElement = new Text('cookingTime');
+        $cookingTimeElement->setLabel('Koch- / Backzeit');
+        $this->add($cookingTimeElement);
+        
+        $restingTimeElement = new Text('restingTime');
+        $restingTimeElement->setLabel('Ruhezeit');
+        $this->add($restingTimeElement);
+        
+        $types = $this->selectAllFrom('Types', 'Name');
         $typeElement = new MultiCheckbox('typeId');
         $typeElement->setLabel('Rezept Typ');
-        $possibleValues = array('Sommermenu','Herbstmenu','Wintermenu','Frühlingsmenu');
-        $typeElement->setValueOptions($possibleValues);
+        //$possibleValues = array('Sommermenu','Herbstmenu','Wintermenu','Frühlingsmenu');
+        $typeElement->setValueOptions($types);
         $this->add($typeElement);
         
-        $selectString = 'SELECT * FROM Levels';//$select->getSqlString();
-        $result = $dbAdapter->query($selectString,Adapter::QUERY_MODE_EXECUTE);
-        $levels = array();
-        foreach ($result as $row){
-            $levels[]= $row['Shortname'];
-        }
+        
+        $levels = $this->selectAllFrom('Levels', 'Shortname');
         $levelElement = new Select('level');
         $levelElement->setLabel('Schwierigkeit');
         $levelElement->setValueOptions($levels);/*array('einfach','schwierig'));*/
+        $levelElement->setValue($levels[0]);
         $this->add($levelElement);
         
         // Add steps
-        $this->addSteps(4);
+        $this->addSteps($this->getMaxNumberOfSteps());
         
+        // Add select for chosing how many steps should be displayed
         $stepNumbers = range(1,$this->maxNoOfSteps);
         $addStepSelect = new Select('stepNumber');
         $addStepSelect->setLabel('Anzahl Schritte wählen');
         $addStepSelect->setValueOptions($stepNumbers);
         $addStepSelect->setAttribute('id', 'noOfStepSelect');
-        $addStepSelect->setAttribute('onchange', 'show()');
+        $addStepSelect->setAttribute('onchange', 'show(++this.value)');
         $this->add($addStepSelect);
         
     }
         
-    public function getDbAdapter(){
-        return $this->dbAdapter;
-    }
-    public function setDbAdapter(AdapterInterface $dbAdapter){
-        $this->dbAdapter = $dbAdapter;
-    }
+
     public function addSteps($number){
         for ($i=0;$i<$number;$i++){
             $this->addStep($i);
@@ -99,20 +94,38 @@ class AddRecipeForm extends AddWorkflowForm
         $quantityElement->setAttribute('id', 'stepQuantity'.$index);
         $this->add($quantityElement);
     
+        $units = $this->selectAllFrom('Units', 'Name');
         $unitElement = new Select('stepUnit'.$index);
-        $unitElement->setValueOptions(array('EL','TL'));
+        $unitElement->setValueOptions($units);
         $unitElement->setAttribute('id','stepUnit'.$index );
         $this->add($unitElement);
     
-    
+        $ingredients = $this->selectAllFrom('Ingredients', 'Name');
         $ingredientElement = new Select('stepIngredient'.$index);
-        $ingredientElement->setValueOptions(array('Öl','Rahm'));
+        $ingredientElement->setValueOptions($ingredients);
         $ingredientElement->setAttribute('id', 'stepIngredient'.$index);
         $this->add($ingredientElement);
     
         $textElement = new Textarea('stepText'.$index);
         $textElement->setAttribute('id', 'stepText'.$index);
         $this->add($textElement);
+    }
+    public function getMaxNumberOfSteps(){
+        return $this->maxNoOfSteps;
+    }
+    public function getInitialSteps(){
+        return $this->initialSteps;
+    }
+    private function selectAllFrom($table,$column){
+        $selectString = 'SELECT * FROM '.$table;
+        $result = $this->getDbAdapter()->query($selectString,Adapter::QUERY_MODE_EXECUTE);
+        // data will be a simple array conataining all values from table
+        $data = array();
+        foreach ($result as $row){
+            $data[]= $row[$column];
+        }
+        return $data;
+        
     }
     
 

@@ -10,43 +10,67 @@ $this->headTitle($title);
 
  echo $this->form()->openTag($form);
  //echo $this->formHidden($form->get('id'));
-//  echo $this->formRow($form->get('title'));
- echo $this->formcollection($form);
-  echo $this->formSubmit($form->get('submit'));
- 
- 
 
+ echo $this->formRow($form->get('id'));
+ echo $this->formRow($form->get('title'));
+ echo $this->formRow($form->get('noOfPeople'));
+ echo $this->formRow($form->get('kcal'));
+ echo $this->formRow($form->get('publicFlag'));
+ echo $this->formRow($form->get('preparationTime'));
+ echo $this->formRow($form->get('cookingTime'));
+ echo $this->formRow($form->get('restingTime'));
+ echo $this->formRow($form->get('typeId'));
+ echo $this->formRow($form->get('level'));
  
+ // Add steps
+  // redundant code -> check AddRecipeForm
+ $maxNumberOfSteps = $form->getMaxNumberOfSteps();;
+ $initialSteps = $form->getInitialSteps();
+ 
+ for($i=0;$i<$maxNumberOfSteps;++$i){
+     ?><div id="step<?php echo $i?>">
+      <?php
+     echo $this->formRow($form->get('stepQuantity'.$i));
+     echo $this->formRow($form->get('stepUnit'.$i));
+     echo $this->formRow($form->get('stepIngredient'.$i));
+     echo $this->formRow($form->get('stepText'.$i));
+     ?>
+     </div>
+      <?php   
+ }
+
+ echo $this->formRow($form->get('stepNumber'));
+
+ echo $this->formRow($form->get('tipp'));
+ echo $this->formSubmit($form->get('submit'));
  
  echo $this->form()->closeTag();
- 
  
  ?>
  
 
  
  <script>
-
- function show() {
-	 var noOfStepSelect = document.getElementById('noOfStepSelect');
-	 var selectedIndex = noOfStepSelect.selectedIndex;
-	 var noOfVisibleSteps = Number(noOfStepSelect.options[selectedIndex].value)+1;
-	 alert(noOfVisibleSteps);
-
-
-	 for (i=0; i<noOfVisibleSteps; ++i){
-		 document.getElementById('stepQuantity'+i).style.visibility = "visible";
-		 document.getElementById('stepUnit'+i).style.visibility = "visible";
-		 document.getElementById('stepIngredient'+i).style.visibility = "visible";
-		 document.getElementById('stepText'+i).style.visibility = "visible";
-		 alert(i);
+ window.onload = show(2);
+ function show(noOfVisibleSteps) {
+	 var i = 0;
+	 var currentStep = document.getElementById('step'+i);
+	 while (currentStep != null){
+		 if (i<noOfVisibleSteps){
+// 			 currentStep.style.visibility = "visible";
+			 currentStep.style.display = "block";
+		 }
+		 else{
+// 			 currentStep.style.visibility = "hidden";
+			 currentStep.style.display = "none";
+		 }
+		 ++i;
+		 currentStep = document.getElementById('step'+i);
 	 }
-	 for (i=noOfVisibleSteps; i<20; ++i){
-		 document.getElementById('stepQuantity'+i).style.visibility = "hidden";
-		 document.getElementById('stepUnit'+i).style.visibility = "hidden";
-		 document.getElementById('stepIngredient'+i).style.visibility = "hidden";
-		 document.getElementById('stepText'+i).style.visibility = "hidden";
-	 }
+
+	 // Make sure the current number of steps is selected in drop down
+	 var stepSelect = document.getElementById('noOfStepSelect');
+	 stepSelect.options[noOfVisibleSteps-1].selected = true;
 }
 
 

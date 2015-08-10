@@ -14,8 +14,13 @@ use CookingAssist\Form\AddRecipeForm;
 use Zend\View\Model;
 use Zend\View\Helper\ViewModel;
 use CookingAssist\Form\RecipeFieldset;
+use CookingAssist\Model\Recipe;
+
+
 class CookingAssistController extends AbstractActionController
 {
+    private $recipeTable;
+    
     public function indexAction()
     {
         return array();
@@ -32,7 +37,39 @@ class CookingAssistController extends AbstractActionController
 //         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
         $addRecipeForm = new AddRecipeForm();
         
+        $request = $this->getRequest();
+        if ($request->isPost()) {
+            echo "is post";
+            $recipe = new Recipe();
+            
+            /* set filter: no content yet
+
+            */
+            $addRecipeForm->setInputFilter($recipe->getInputFilter());
+            $addRecipeForm->setData($request->getPost());
+
+            if($addRecipeForm->isValid()){
+                
+            
+                print_r($addRecipeForm->getData());
+                $recipe->exchangeArray($addRecipeForm->getData());
+                $this->getRecipeTable()->saveRecipe($recipe);
+                 
+                // Redirect to index
+//                 return $this->redirect()->toRoute('cookingassist');
+           }
+        }
+        
         
         return array('form'=>$addRecipeForm);
+    }
+    
+    public function getRecipeTable()
+    {
+        if (!$this->recipeTable) {
+            $sm = $this->getServiceLocator();
+            $this->recipeTable = $sm->get('CookingAssist\Model\RecipeTable');
+        }
+        return $this->recipeTable;
     }
 }

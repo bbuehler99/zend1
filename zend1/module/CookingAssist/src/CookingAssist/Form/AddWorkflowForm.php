@@ -1,6 +1,8 @@
 <?php
 namespace CookingAssist\Form;
+
 use Zend\Form\Form;
+use Zend\Db\TableGateway\Feature\GlobalAdapterFeature;
 use Zend\Form\Element\Collection;
 use Zend\Form\Fieldset;
 
@@ -17,11 +19,21 @@ class AddWorkflowForm extends Form
     public $tipp;
     public $layoutId;
      */
-    public function __construct()
+    public function __construct($name='workflowform')
     {
 //         $this->setDbAdapter($dbAdapter);
         // we want to ignore the name passed
-        parent::__construct('workflowform');
+        parent::__construct($name);
+        
+        $dbAdapter = GlobalAdapterFeature::getStaticAdapter();
+        if($dbAdapter != null){
+        
+            $this->setDbAdapter($dbAdapter);
+        }
+        else{
+            throw new \Exception('no dbAdapter loaded');
+        }
+            
         
 //         $workflowElement = new Collection('workflow');
 //         $workflowElement->setOptions(array(
