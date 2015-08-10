@@ -55,8 +55,8 @@ class CookingAssistController extends AbstractActionController
                 $recipe->exchangeArray($addRecipeForm->getData());
                 $this->getRecipeTable()->saveRecipe($recipe);
                  
-                // Redirect to list of albums
-                return $this->redirect()->toRoute('cookingassist');
+                // Redirect to index
+//                 return $this->redirect()->toRoute('cookingassist');
            }
         }
         

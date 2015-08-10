@@ -13,10 +13,12 @@ $this->headTitle($title);
 
  echo $this->formRow($form->get('id'));
  echo $this->formRow($form->get('title'));
- echo $this->formRow($form->get('tipp'));
  echo $this->formRow($form->get('noOfPeople'));
  echo $this->formRow($form->get('kcal'));
  echo $this->formRow($form->get('publicFlag'));
+ echo $this->formRow($form->get('preparationTime'));
+ echo $this->formRow($form->get('cookingTime'));
+ echo $this->formRow($form->get('restingTime'));
  echo $this->formRow($form->get('typeId'));
  echo $this->formRow($form->get('level'));
  
@@ -38,10 +40,11 @@ $this->headTitle($title);
  }
 
  echo $this->formRow($form->get('stepNumber'));
+
+ echo $this->formRow($form->get('tipp'));
  echo $this->formSubmit($form->get('submit'));
  
  echo $this->form()->closeTag();
- echo $form->getMaxNumberOfSteps();
  
  ?>
  

@@ -11,29 +11,31 @@ class Recipe extends Workflow
 {
     private $inputFilter;
     
-    public $authorId;
-    public $noOfPeople;
-    public $kcal;
-    public $publicFlag;
-    public $preparationTime;
-    public $cookingTime;
-    public $restingTime;
-    public $creationDate;
-    public $level;
+    public $id=-1;
+    public $authorId=-1;
+    public $noOfPeople=-1;
+    public $kcal=-1;
+    public $publicFlag=0;
+    public $preparationTime=-1;
+    public $cookingTime=-1;
+    public $restingTime=-1;
+    public $creationDate=-1;
+    public $level=-1;
     
     
     public function exchangeArray($data)
     {
         parent::exchangeArray($data);
+        $this->id   = (!empty($data['id'])) ? $data['id'] : null;
         $this->authorId     = (!empty($data['authorId'])) ? $data['authorId'] : null;
         $this->noOfPeople  = (!empty($data['noOfPeople'])) ? $data['noOfPeople'] : null;
         $this->kcal = (!empty($data['kcal'])) ? $data['kcal'] : null;
-        $this->publicFlag  = (!empty($data['publicFlag'])) ? $data['publicFlag'] : null;
+        $this->publicFlag  = (!empty($data['publicFlag'])) ? $data['publicFlag'] : 0;
         $this->preparationTime = (!empty($data['preparationTime'])) ? $data['preparationTime'] : null;
         $this->cookingTime  = (!empty($data['cookingTime'])) ? $data['cookingTime'] : null;
         $this->restingTime = (!empty($data['restingTime'])) ? $data['restingTime'] : null;
         $this->creationDate  = (!empty($data['creationDate'])) ? $data['creationDate'] : null;
-        $this->level  = (!empty($data['level'])) ? $data['level'] : null;
+        $this->level  = (!empty($data['level'])) ? $data['level'] : 0;
     }
     public function getArrayCopy()
     {

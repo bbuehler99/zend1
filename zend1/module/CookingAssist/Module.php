@@ -65,10 +65,11 @@ class Module implements AutoloaderProviderInterface
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new Recipe());
                     
-                    return new TableGateway('recipe', $dbAdapter, null, $resultSetPrototype);
+                    return new TableGateway('Recipes', $dbAdapter, null, $resultSetPrototype);
                 },
             ),
         );
+    
     }
    
 }
