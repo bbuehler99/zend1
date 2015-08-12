@@ -7,6 +7,9 @@ use Zend\InputFilter\InputFilterInterface;
 use CookingAssist\Model\Workflow;
 use Zend\Stdlib\ArraySerializableInterface;
 
+use CookingAssist\Model\Step;
+
+
 class Recipe extends Workflow 
 {
     private $inputFilter;
@@ -38,12 +41,23 @@ class Recipe extends Workflow
         $this->creationDate  = (!empty($data['creationDate'])) ? $data['creationDate'] : null;
         $this->level  = (!empty($data['level'])) ? $data['level'] : 0;
         for($i=0;$i<20;$i++){
-            $isMultiStep = (!empty($data['isMultiStep'.$i])) ? $data['isMultiStep'.$i] : null;;
-            $text = (!empty($data['stepText'.$i])) ? $data['stepText'.$i] : null;
-            $quantityValue = (!empty($data['quantityValue'.$i])) ? $data['quantityValue'.$i] : null;
-            $unitId = (!empty($data['$unitId'.$i])) ? $data['$unitId'.$i] : null;
-            $step = new Step($text, $isMultiStep, $quantityValue,$unitId);
-            $this->steps[] = $step;
+            if(  !empty($data['stepQuantity'.$i]) || !empty($data['stepText'.$i])       ){
+                $isMultiStep = (!empty($data['isMultiStep'.$i])) ? $data['isMultiStep'.$i] : null;
+                $stepQuantity = (!empty($data['stepQuantity'.$i])) ? $data['stepQuantity'.$i] : null;
+                $stepIngredient = (!empty($data['stepIngredient'.$i])) ? $data['stepIngredient'.$i] : null;
+                $text = (!empty($data['stepText'.$i])) ? $data['stepText'.$i] : null;
+//                 $unitId = (!empty($data['stepUnit'.$i])) ? $data['stepUnit'.$i] : null;
+                
+                $step = new Step();
+                
+                $step->create($isMultiStep, $stepQuantity,$stepIngredient,$text);
+                echo "<br><br>";
+                echo "text:".$step->text;
+                $this->steps[] = $step;
+            }
+            else{
+                echo "stepQuantity empty at step ".$i."!!!";
+            }
         }
     }
     public function getArrayCopy()

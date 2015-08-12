@@ -20,6 +20,7 @@ use Zend\Db\TableGateway\TableGateway;
 use CookingAssist\Model\Workflow;
 use CookingAssist\Model\Type;
 use CookingAssist\Model\Ingredient;
+use CookingAssist\Model\Step;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -64,7 +65,9 @@ class Module implements AutoloaderProviderInterface
                     $workflowsTableGateway = $sm->get('WorkflowsTableGateway');
                     $typesTableGateway = $sm->get('TypesTableGateway');
                     $ingredientsTableGateway = $sm->get('IngredientsTableGateway');
-                    $table = new AddRecipeTable($recipesTableGateway,$workflowsTableGateway,$typesTableGateway,$ingredientsTableGateway);
+                    $stepsTableGateway = $sm->get('StepsTableGateway');
+                    echo "everything clear";
+                    $table = new AddRecipeTable($recipesTableGateway,$workflowsTableGateway,$typesTableGateway,$ingredientsTableGateway,$stepsTableGateway);
                     return $table;
                 },
                 'RecipesTableGateway' => function ($sm) {
@@ -92,8 +95,14 @@ class Module implements AutoloaderProviderInterface
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new Ingredient());
-                    
                     return new TableGateway('Ingredients', $dbAdapter, null, $resultSetPrototype);
+                },
+                'StepsTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    // needs exchagne method
+                    $resultSetPrototype->setArrayObjectPrototype(new Step());
+                    return new TableGateway('Steps', $dbAdapter, null, $resultSetPrototype);
                 },
                 
             ),

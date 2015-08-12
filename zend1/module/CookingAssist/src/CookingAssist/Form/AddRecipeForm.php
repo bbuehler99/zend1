@@ -15,6 +15,7 @@ use Zend\Db\Adapter\Adapter;
 use Zend\Form\Element\MultiCheckbox;
 use Zend\Form\Element\Textarea;
 use Zend\Form\Element;
+use Zend\Form\Element\Hidden;
 
 class AddRecipeForm extends AddWorkflowForm
 {
@@ -89,6 +90,10 @@ class AddRecipeForm extends AddWorkflowForm
         }
     }
     private function addStep($index){
+        $stepIdElement = new Hidden('stepId'.$index);
+        $stepIdElement->setValue($index);
+        $this->add($stepIdElement);        
+        
         $quantityElement = new Text('stepQuantity'.$index);
         $quantityElement->setLabel('Menge');
         $quantityElement->setAttribute('id', 'stepQuantity'.$index);

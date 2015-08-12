@@ -3,18 +3,32 @@ namespace CookingAssist\Model;
 
 class Step
 {
+    public $stepId;
     public $isMultiStep;
     public $text;
     public $quantityId;
-    public $unitId;
+    public $stepIngredient;
     
-    function __construct($text, $isMultiStep, $quantityValue,$unitId){
+    
+    function create($isMultiStep, $stepQuantity,$stepIngredient,$text){
+        $instance = new self();
+        $this->isMultiStep = $isMultiStep;
+        $this->quantityId = $stepQuantity;
+        $this->stepIngredient = $stepIngredient;
         $this->text = $text;
-
-        $this->isMultiStep= $isMultiStep;
-
-        $this->quantityValue = quantityValue;
-        $this->unitId = $unitId;
+        return $instance;
+    }
+    
+    public function exchangeArray($data)
+    {
+        $this->isMultiStep     = (!empty($data['isMultiStep'])) ? $data['isMultiStep'] : null;
+        $this->text  = (!empty($data['stepText'])) ? $data['stepText'] : null;
+        $this->quantityId = (!empty($data['stepQuantity'])) ? $data['stepQuantity'] : null;
+        $this->stepIngredient  = (!empty($data['stepIngredient'])) ? $data['stepIngredient'] : null;
+    }
+    public function getArrayCopy()
+    {
+        return get_object_vars($this);
     }
 }
 
