@@ -19,7 +19,7 @@ use CookingAssist\Model\Recipe;
 
 class CookingAssistController extends AbstractActionController
 {
-    private $recipeTable;
+    private $addRecipeTable;
     
     public function indexAction()
     {
@@ -53,7 +53,7 @@ class CookingAssistController extends AbstractActionController
             
                 print_r($addRecipeForm->getData());
                 $recipe->exchangeArray($addRecipeForm->getData());
-                $this->getRecipeTable()->saveRecipe($recipe);
+                $this->getAddRecipeTable()->saveRecipe($recipe);
                  
                 // Redirect to index
 //                 return $this->redirect()->toRoute('cookingassist');
@@ -64,12 +64,12 @@ class CookingAssistController extends AbstractActionController
         return array('form'=>$addRecipeForm);
     }
     
-    public function getRecipeTable()
+    public function getAddRecipeTable()
     {
-        if (!$this->recipeTable) {
+        if (!$this->addRecipeTable) {
             $sm = $this->getServiceLocator();
-            $this->recipeTable = $sm->get('CookingAssist\Model\RecipeTable');
+            $this->addRecipeTable = $sm->get('CookingAssist\Model\AddRecipeTable');
         }
-        return $this->recipeTable;
+        return $this->addRecipeTable;
     }
 }

@@ -21,6 +21,7 @@ class Recipe extends Workflow
     public $restingTime=-1;
     public $creationDate=-1;
     public $level=-1;
+    public $steps=array();
     
     
     public function exchangeArray($data)
@@ -36,6 +37,14 @@ class Recipe extends Workflow
         $this->restingTime = (!empty($data['restingTime'])) ? $data['restingTime'] : null;
         $this->creationDate  = (!empty($data['creationDate'])) ? $data['creationDate'] : null;
         $this->level  = (!empty($data['level'])) ? $data['level'] : 0;
+        for($i=0;$i<20;$i++){
+            $isMultiStep = (!empty($data['isMultiStep'.$i])) ? $data['isMultiStep'.$i] : null;;
+            $text = (!empty($data['stepText'.$i])) ? $data['stepText'.$i] : null;
+            $quantityValue = (!empty($data['quantityValue'.$i])) ? $data['quantityValue'.$i] : null;
+            $unitId = (!empty($data['$unitId'.$i])) ? $data['$unitId'.$i] : null;
+            $step = new Step($text, $isMultiStep, $quantityValue,$unitId);
+            $this->steps[] = $step;
+        }
     }
     public function getArrayCopy()
     {

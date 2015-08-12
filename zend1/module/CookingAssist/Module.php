@@ -10,12 +10,16 @@
 namespace CookingAssist;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\Debug;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use CookingAssist\Model\Recipe;
-use CookingAssist\Model\RecipeTable;
+use CookingAssist\Model\AddRecipeTable;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
+use CookingAssist\Model\Workflow;
+use CookingAssist\Model\Type;
+use CookingAssist\Model\Ingredient;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -55,21 +59,50 @@ class Module implements AutoloaderProviderInterface
     {
         return array(
             'factories' => array(
-                'CookingAssist\Model\RecipeTable' =>  function($sm) {
-                    $tableGateway = $sm->get('RecipeTableGateway');
-                    $table = new RecipeTable($tableGateway);
+                'CookingAssist\Model\AddRecipeTable' =>  function($sm) {
+                    $recipesTableGateway = $sm->get('RecipesTableGateway');
+                    $workflowsTableGateway = $sm->get('WorkflowsTableGateway');
+                    $typesTableGateway = $sm->get('TypesTableGateway');
+                    $ingredientsTableGateway = $sm->get('IngredientsTableGateway');
+                    $table = new AddRecipeTable($recipesTableGateway,$workflowsTableGateway,$typesTableGateway,$ingredientsTableGateway);
                     return $table;
                 },
-                'RecipeTableGateway' => function ($sm) {
+                'RecipesTableGateway' => function ($sm) {
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new Recipe());
                     
                     return new TableGateway('Recipes', $dbAdapter, null, $resultSetPrototype);
                 },
+                'WorkflowsTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Workflow());
+                    
+                    return new TableGateway('Workflows', $dbAdapter, null, $resultSetPrototype);
+                },
+                'TypesTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Type());
+                    
+                    return new TableGateway('Types', $dbAdapter, null, $resultSetPrototype);
+                },
+                'IngredientsTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Ingredient());
+                    
+                    return new TableGateway('Ingredients', $dbAdapter, null, $resultSetPrototype);
+                },
+                
             ),
         );
     
+    }
+    private function getDbTableString($name,$table){
+        Debug::dump("test");
+        
     }
    
 }
