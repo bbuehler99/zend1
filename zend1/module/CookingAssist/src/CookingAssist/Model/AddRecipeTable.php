@@ -27,6 +27,9 @@ class AddRecipeTable
     
     public function saveRecipe($recipe){
         echo "saving recipe...";
+        echo "recipe: ";
+        print_r(get_object_vars($recipe));
+        echo "<br>";
         
         
         // Create array with values
@@ -39,7 +42,7 @@ class AddRecipeTable
          $id = (int) $recipe->id;
 //          echo "<br>id before: ".$id;
          if ($id == 0) {
-             echo "id is null<br>";
+//              echo "id is null<br>";
              // insert Workflow
              $workflowData = array(
                  'Id' => $id,
@@ -71,7 +74,7 @@ class AddRecipeTable
              // insert steps
              $steps = $recipe->steps;
              $noOfSteps = count($steps);
-             echo "length steps: ".$noOfSteps;
+//              echo "length steps: ".$noOfSteps;
 //              echo "Printing steps<br><br>";
               
              for($i=0;$i<$noOfSteps;$i++){

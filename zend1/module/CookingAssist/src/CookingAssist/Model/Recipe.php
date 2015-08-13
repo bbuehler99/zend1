@@ -31,21 +31,21 @@ class Recipe extends Workflow
     {
         parent::exchangeArray($data);
 //         echo 'recipedata: ';print_r($data);
-        $this->id   = (!empty($data['id'])) ? $data['id'] : null;
-        $this->authorId     = (!empty($data['authorId'])) ? $data['authorId'] : null;
-        $this->noOfPeople  = (!empty($data['noOfPeople'])) ? $data['noOfPeople'] : null;
-        $this->kcal = (!empty($data['kcal'])) ? $data['kcal'] : null;
-        $this->publicFlag  = (!empty($data['publicFlag'])) ? $data['publicFlag'] : 0;
-        $this->preparationTime = (!empty($data['preparationTime'])) ? $data['preparationTime'] : null;
-        $this->cookingTime  = (!empty($data['cookingTime'])) ? $data['cookingTime'] : null;
-        $this->restingTime = (!empty($data['restingTime'])) ? $data['restingTime'] : null;
-        $this->creationDate  = (!empty($data['creationDate'])) ? $data['creationDate'] : null;
-        $this->level  = (!empty($data['level'])) ? $data['level'] : 0;
+        $this->id   = (!empty($data['Id'])) ? $data['Id'] : null;
+        $this->authorId     = (!empty($data['AuthorId'])) ? $data['AuthorId'] : null;
+        $this->noOfPeople  = (!empty($data['NoOfPeople'])) ? $data['NoOfPeople'] : null;
+        $this->kcal = (!empty($data['Kcal'])) ? $data['Kcal'] : null;
+        $this->publicFlag  = (!empty($data['PublicFlag'])) ? $data['PublicFlag'] : 0;
+        $this->preparationTime = (!empty($data['PreparationTime'])) ? $data['PreparationTime'] : null;
+        $this->cookingTime  = (!empty($data['CookingTime'])) ? $data['CookingTime'] : null;
+        $this->restingTime = (!empty($data['RestingTime'])) ? $data['RestingTime'] : null;
+        $this->creationDate  = (!empty($data['CreationDate'])) ? $data['CreationDate'] : null;
+        $this->level  = (!empty($data['Level'])) ? $data['Level'] : 0;
         for($i=0;$i<20;$i++){
             if(  !($data['StepQuantity'.$i]==null) || !empty($data['StepText'.$i])       ){
                 $isMultiStep = (!empty($data['IsMultiStep'.$i])) ? $data['IsMultiStep'.$i] : null;
                 $stepQuantityValue = (!empty($data['StepQuantityValue'.$i])) ? $data['StepQuantityValue'.$i] : null;
-                $stepQuantityUnit = (!empty($data['StepUnit'.$i])) ? $data['StepUnit'.$i] : null;
+                $stepQuantityUnit = (!($data['StepUnit'.$i]==null)) ? $data['StepUnit'.$i] : null;
                 // empty(0) is true in php!
                 $stepIngredient = (!($data['StepIngredient'.$i]==null)) ? $data['StepIngredient'.$i] : null;
                 $text = (!empty($data['StepText'.$i])) ? $data['StepText'.$i] : null;
