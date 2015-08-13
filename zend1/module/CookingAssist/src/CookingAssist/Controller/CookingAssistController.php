@@ -39,7 +39,7 @@ class CookingAssistController extends AbstractActionController
         
         $request = $this->getRequest();
         if ($request->isPost()) {
-            echo "is post";
+//             echo "is post";
             $recipe = new Recipe();
             
             /* set filter: no content yet
@@ -51,7 +51,7 @@ class CookingAssistController extends AbstractActionController
             if($addRecipeForm->isValid()){
                 
             
-                print_r($addRecipeForm->getData());
+//                 print_r($addRecipeForm->getData());
                 $recipe->exchangeArray($addRecipeForm->getData());
                 $this->getAddRecipeTable()->saveRecipe($recipe);
                  

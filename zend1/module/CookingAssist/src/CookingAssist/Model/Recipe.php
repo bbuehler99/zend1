@@ -30,6 +30,7 @@ class Recipe extends Workflow
     public function exchangeArray($data)
     {
         parent::exchangeArray($data);
+//         echo 'recipedata: ';print_r($data);
         $this->id   = (!empty($data['id'])) ? $data['id'] : null;
         $this->authorId     = (!empty($data['authorId'])) ? $data['authorId'] : null;
         $this->noOfPeople  = (!empty($data['noOfPeople'])) ? $data['noOfPeople'] : null;
@@ -41,22 +42,24 @@ class Recipe extends Workflow
         $this->creationDate  = (!empty($data['creationDate'])) ? $data['creationDate'] : null;
         $this->level  = (!empty($data['level'])) ? $data['level'] : 0;
         for($i=0;$i<20;$i++){
-            if(  !empty($data['stepQuantity'.$i]) || !empty($data['stepText'.$i])       ){
-                $isMultiStep = (!empty($data['isMultiStep'.$i])) ? $data['isMultiStep'.$i] : null;
-                $stepQuantity = (!empty($data['stepQuantity'.$i])) ? $data['stepQuantity'.$i] : null;
-                $stepIngredient = (!empty($data['stepIngredient'.$i])) ? $data['stepIngredient'.$i] : null;
-                $text = (!empty($data['stepText'.$i])) ? $data['stepText'.$i] : null;
+            if(  !($data['StepQuantity'.$i]==null) || !empty($data['StepText'.$i])       ){
+                $isMultiStep = (!empty($data['IsMultiStep'.$i])) ? $data['IsMultiStep'.$i] : null;
+                $stepQuantityValue = (!empty($data['StepQuantityValue'.$i])) ? $data['StepQuantityValue'.$i] : null;
+                $stepQuantityUnit = (!empty($data['StepUnit'.$i])) ? $data['StepUnit'.$i] : null;
+                // empty(0) is true in php!
+                $stepIngredient = (!($data['StepIngredient'.$i]==null)) ? $data['StepIngredient'.$i] : null;
+                $text = (!empty($data['StepText'.$i])) ? $data['StepText'.$i] : null;
 //                 $unitId = (!empty($data['stepUnit'.$i])) ? $data['stepUnit'.$i] : null;
                 
                 $step = new Step();
                 
-                $step->create($isMultiStep, $stepQuantity,$stepIngredient,$text);
-                echo "<br><br>";
-                echo "text:".$step->text;
+                $step->create($isMultiStep, $stepQuantityValue,$stepQuantityUnit,$stepIngredient,$text);
+//                 echo "<br><br>";
+//                 echo "text:".$step->text;
                 $this->steps[] = $step;
             }
             else{
-                echo "stepQuantity empty at step ".$i."!!!";
+//                 echo "stepQuantity empty at step ".$i."!!!";
             }
         }
     }

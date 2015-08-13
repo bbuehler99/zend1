@@ -11,16 +11,16 @@ $this->headTitle($title);
  echo $this->form()->openTag($form);
  //echo $this->formHidden($form->get('id'));
 
- echo $this->formRow($form->get('id'));
- echo $this->formRow($form->get('title'));
- echo $this->formRow($form->get('noOfPeople'));
- echo $this->formRow($form->get('kcal'));
- echo $this->formRow($form->get('publicFlag'));
- echo $this->formRow($form->get('preparationTime'));
- echo $this->formRow($form->get('cookingTime'));
- echo $this->formRow($form->get('restingTime'));
- echo $this->formRow($form->get('typeId'));
- echo $this->formRow($form->get('level'));
+ echo $this->formRow($form->get('Id'));
+ echo $this->formRow($form->get('Title'));
+ echo $this->formRow($form->get('NoOfPeople'));
+ echo $this->formRow($form->get('Kcal'));
+ echo $this->formRow($form->get('PublicFlag'));
+ echo $this->formRow($form->get('PreparationTime'));
+ echo $this->formRow($form->get('CookingTime'));
+ echo $this->formRow($form->get('RestingTime'));
+ echo $this->formRow($form->get('TypeId'));
+ echo $this->formRow($form->get('Level'));
  
  // Add steps
   // redundant code -> check AddRecipeForm
@@ -28,21 +28,21 @@ $this->headTitle($title);
  $initialSteps = $form->getInitialSteps();
  
  for($i=0;$i<$maxNumberOfSteps;++$i){
-     ?><div id="step<?php echo $i?>">
+     ?><div id="Step<?php echo $i?>">
       <?php
-     echo $this->formRow($form->get('stepQuantity'.$i));
-     echo $this->formRow($form->get('stepUnit'.$i));
-     echo $this->formRow($form->get('stepIngredient'.$i));
-     echo $this->formRow($form->get('stepText'.$i));
+     echo $this->formRow($form->get('StepQuantityValue'.$i));
+     echo $this->formRow($form->get('StepUnit'.$i));
+     echo $this->formRow($form->get('StepIngredient'.$i));
+     echo $this->formRow($form->get('StepText'.$i));
      ?>
      </div>
       <?php   
  }
 
- echo $this->formRow($form->get('stepNumber'));
+ echo $this->formRow($form->get('StepNumber'));
 
- echo $this->formRow($form->get('tipp'));
- echo $this->formSubmit($form->get('submit'));
+ echo $this->formRow($form->get('Tipp'));
+ echo $this->formSubmit($form->get('Submit'));
  
  echo $this->form()->closeTag();
  
@@ -54,22 +54,20 @@ $this->headTitle($title);
  window.onload = show(2);
  function show(noOfVisibleSteps) {
 	 var i = 0;
-	 var currentStep = document.getElementById('step'+i);
+	 var currentStep = document.getElementById('Step'+i);
 	 while (currentStep != null){
 		 if (i<noOfVisibleSteps){
-// 			 currentStep.style.visibility = "visible";
 			 currentStep.style.display = "block";
 		 }
 		 else{
-// 			 currentStep.style.visibility = "hidden";
 			 currentStep.style.display = "none";
 		 }
 		 ++i;
-		 currentStep = document.getElementById('step'+i);
+		 currentStep = document.getElementById('Step'+i);
 	 }
 
 	 // Make sure the current number of steps is selected in drop down
-	 var stepSelect = document.getElementById('noOfStepSelect');
+	 var stepSelect = document.getElementById('NoOfStepSelect');
 	 stepSelect.options[noOfVisibleSteps-1].selected = true;
 }
 

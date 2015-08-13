@@ -6,14 +6,16 @@ class Step
     public $stepId;
     public $isMultiStep;
     public $text;
-    public $quantityId;
+    public $quantityValue;
+    public $quantityUnit;
     public $stepIngredient;
     
     
-    function create($isMultiStep, $stepQuantity,$stepIngredient,$text){
+    function create($isMultiStep, $stepQuantityValue,$stepQuantityUnit,$stepIngredient,$text){
         $instance = new self();
         $this->isMultiStep = $isMultiStep;
-        $this->quantityId = $stepQuantity;
+        $this->quantityValue = $stepQuantityValue;
+        $this->quantityUnit = $stepQuantityUnit;
         $this->stepIngredient = $stepIngredient;
         $this->text = $text;
         return $instance;
@@ -21,9 +23,11 @@ class Step
     
     public function exchangeArray($data)
     {
+        echo 'step->exchangeArray called. stepIngredient: '.$data['stepIngredient'];
         $this->isMultiStep     = (!empty($data['isMultiStep'])) ? $data['isMultiStep'] : null;
         $this->text  = (!empty($data['stepText'])) ? $data['stepText'] : null;
-        $this->quantityId = (!empty($data['stepQuantity'])) ? $data['stepQuantity'] : null;
+        $this->quantityValue = (!empty($data['stepQuantityValue'])) ? $data['stepQuantityValue'] : null;
+        $this->quantityUnit = (!empty($data['stepUnit'])) ? $data['stepUnit'] : null;
         $this->stepIngredient  = (!empty($data['stepIngredient'])) ? $data['stepIngredient'] : null;
     }
     public function getArrayCopy()
