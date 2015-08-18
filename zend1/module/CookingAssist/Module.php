@@ -23,6 +23,7 @@ use CookingAssist\Model\Ingredient;
 use CookingAssist\Model\Step;
 use CookingAssist\Model\Quantity;
 use CookingAssist\Model\SingleStepIngredient;
+use CookingAssist\Service\DbService;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -73,7 +74,6 @@ class Module implements AutoloaderProviderInterface
                     $ingredientsTableGateway = $sm->get('SingleStepIngredientsTableGateway');
                     $stepsTableGateway = $sm->get('StepsTableGateway');
                     $quantitiesTableGateway = $sm->get('QuantitiesTableGateway');
-                    echo "everything clear";
                     $table = new AddRecipeTable($recipesTableGateway,$workflowsTableGateway,$typesTableGateway,$ingredientsTableGateway,$stepsTableGateway,$quantitiesTableGateway);
                     return $table;
                 },
@@ -123,6 +123,11 @@ class Module implements AutoloaderProviderInterface
                     // needs exchagne method
                     $resultSetPrototype->setArrayObjectPrototype(new Quantity());
                     return new TableGateway('Quantities', $dbAdapter, null, $resultSetPrototype);
+                },
+                'DbService' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $dbService = new DbService($dbAdapter);
+                    return $dbService;
                 },
                 
             ),

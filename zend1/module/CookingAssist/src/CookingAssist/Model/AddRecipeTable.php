@@ -24,21 +24,22 @@ class AddRecipeTable
         $this->stepsTableGateway = $stepsTableGatway;
         $this->quantitiesTableGateway = $quantitiesTableGateway;
     }
-    
+
+    /*
+     * Saves a single recipe
+     * Inserts values from recipe into db tables
+     * - Workflows
+     * - Recipes
+     * - Steps
+     * - SingleStepIngredients
+     * - Quantities
+     */
     public function saveRecipe($recipe){
         echo "saving recipe...";
         echo "recipe: ";
         print_r(get_object_vars($recipe));
         echo "<br>";
         
-        
-        // Create array with values
-        /* insert into database
-         * 
-         */
-        
-        
-
          $id = (int) $recipe->id;
 //          echo "<br>id before: ".$id;
          if ($id == 0) {
@@ -122,6 +123,7 @@ class AddRecipeTable
 
          } 
          else{
+             // TODO: implement update of recipe
             $message = "something wrong with recipe.id. is not 0";
             echo "<script type='text/javascript'>alert('$message');</script>";
          }

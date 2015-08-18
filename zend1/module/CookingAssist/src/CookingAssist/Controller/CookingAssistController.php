@@ -32,6 +32,26 @@ class CookingAssistController extends AbstractActionController
         // are working when you browse to /cookingAssist/cooking-assist/foo
         return array();
     }
+    public function showRecipeAction(){
+        $request = $this->getRequest();
+        $uri = $_SERVER['REQUEST_URI'];
+        // matches last part of url. make sure there is a recipe id requested
+        $id = end((explode('/',$uri)));
+        if(preg_match("(\d)", $id)){
+
+            $sm = $this->getServiceLocator();
+            $dbService = $sm->get('DbService');
+            $recipe = $dbService->getRecipe($id);
+            
+            return array(
+                'id' => $id,
+                'recipe' => $recipe,
+            );
+        }
+        else{
+            throw new \Exception("No id provided at end of url");
+        }
+    }
     public function addRecipeAction(){
         
 //         $dbAdapter = $this->getServiceLocator()->get('Zend\Db\Adapter\Adapter');
