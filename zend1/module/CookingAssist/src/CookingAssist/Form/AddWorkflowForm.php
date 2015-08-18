@@ -46,25 +46,25 @@ class AddWorkflowForm extends Form
         
         
         $this->add(array(
-            'name' => 'id',
+            'name' => 'Id',
             'type' => 'Hidden',
         ));
         $this->add(array(
-            'name' => 'title',
+            'name' => 'Title',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Titel',
             ),
         ));
         $this->add(array(
-            'name' => 'tipp',
+            'name' => 'Tipp',
             'type' => 'Text',
             'options' => array(
                 'label' => 'Tipp',
             ),
         ));
 
-        $submitElement = new Submit('submit');
+        $submitElement = new Submit('Submit');
         $submitElement->setValue('Hinzufügen');
         $this->add($submitElement);
     }

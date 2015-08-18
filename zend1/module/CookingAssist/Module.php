@@ -10,12 +10,19 @@
 namespace CookingAssist;
 
 use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\Debug;
 use Zend\Mvc\ModuleRouteListener;
 use Zend\Mvc\MvcEvent;
 use CookingAssist\Model\Recipe;
-use CookingAssist\Model\RecipeTable;
+use CookingAssist\Model\AddRecipeTable;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
+use CookingAssist\Model\Workflow;
+use CookingAssist\Model\Type;
+use CookingAssist\Model\Ingredient;
+use CookingAssist\Model\Step;
+use CookingAssist\Model\Quantity;
+use CookingAssist\Model\SingleStepIngredient;
 
 class Module implements AutoloaderProviderInterface
 {
@@ -55,18 +62,69 @@ class Module implements AutoloaderProviderInterface
     {
         return array(
             'factories' => array(
-                'CookingAssist\Model\RecipeTable' =>  function($sm) {
-                    $tableGateway = $sm->get('RecipeTableGateway');
-                    $table = new RecipeTable($tableGateway);
+                'dbAdapter' => function($sm){
+                    return $sm->get('Zend\Db\Adapter\Adapter');
+                    
+                },
+                'CookingAssist\Model\AddRecipeTable' =>  function($sm) {
+                    $recipesTableGateway = $sm->get('RecipesTableGateway');
+                    $workflowsTableGateway = $sm->get('WorkflowsTableGateway');
+                    $typesTableGateway = $sm->get('TypesTableGateway');
+                    $ingredientsTableGateway = $sm->get('SingleStepIngredientsTableGateway');
+                    $stepsTableGateway = $sm->get('StepsTableGateway');
+                    $quantitiesTableGateway = $sm->get('QuantitiesTableGateway');
+                    echo "everything clear";
+                    $table = new AddRecipeTable($recipesTableGateway,$workflowsTableGateway,$typesTableGateway,$ingredientsTableGateway,$stepsTableGateway,$quantitiesTableGateway);
                     return $table;
                 },
-                'RecipeTableGateway' => function ($sm) {
+                'RecipesTableGateway' => function ($sm) {
                     $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
                     $resultSetPrototype = new ResultSet();
                     $resultSetPrototype->setArrayObjectPrototype(new Recipe());
                     
                     return new TableGateway('Recipes', $dbAdapter, null, $resultSetPrototype);
                 },
+                'WorkflowsTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Workflow());
+                    
+                    return new TableGateway('Workflows', $dbAdapter, null, $resultSetPrototype);
+                },
+                'TypesTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Type());
+                    
+                    return new TableGateway('Types', $dbAdapter, null, $resultSetPrototype);
+                },
+                'SingleStepIngredientsTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new SingleStepIngredient());
+                    return new TableGateway('SingleStepIngredients', $dbAdapter, null, $resultSetPrototype);
+                },
+                'IngredientsTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Ingredient());
+                    return new TableGateway('Ingredients', $dbAdapter, null, $resultSetPrototype);
+                },
+                'StepsTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    // needs exchagne method
+                    $resultSetPrototype->setArrayObjectPrototype(new Step());
+                    return new TableGateway('Steps', $dbAdapter, null, $resultSetPrototype);
+                },
+                'QuantitiesTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    // needs exchagne method
+                    $resultSetPrototype->setArrayObjectPrototype(new Quantity());
+                    return new TableGateway('Quantities', $dbAdapter, null, $resultSetPrototype);
+                },
+                
             ),
         );
     

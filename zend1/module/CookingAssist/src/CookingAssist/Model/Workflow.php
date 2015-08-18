@@ -11,11 +11,11 @@ class Workflow
     
     public function exchangeArray($data)
     {
-        $this->id     = (!empty($data['id'])) ? $data['id'] : null;
-        $this->title  = (!empty($data['title'])) ? $data['title'] : null;
-        $this->tipp = (!empty($data['tipp'])) ? $data['tipp'] : null;
-        $this->layoutId  = (!empty($data['layoutId'])) ? $data['layoutId'] : null;
-        $this->keywords  = (!empty($data['keywords'])) ? $data['keywords'] : null;
+        $this->id     = (!empty($data['Id'])) ? $data['Id'] : null;
+        $this->title  = (!empty($data['Title'])) ? $data['Title'] : null;
+        $this->tipp = (!empty($data['Tipp'])) ? $data['Tipp'] : null;
+        $this->layoutId  = (!empty($data['LayoutId'])) ? $data['LayoutId'] : null;
+        $this->keywords  = (!empty($data['Keywords'])) ? $data['Keywords'] : null;
     }
     public function getArrayCopy()
     {
